@@ -1,0 +1,331 @@
+Step 1 : Create VPC
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 create-vpc --cidr-block 10.0.0.0/16
+{
+    "Vpc": {
+        "CidrBlock": "10.0.0.0/16",
+        "DhcpOptionsId": "dopt-65c0250e",
+:...skipping...
+{
+    "Vpc": {
+        "CidrBlock": "10.0.0.0/16",
+        "DhcpOptionsId": "dopt-65c0250e",
+        "State": "pending",
+        "VpcId": "vpc-03d8df17a7c6ee314",
+        "OwnerId": "889926323400",
+        "InstanceTenancy": "default",
+        "Ipv6CidrBlockAssociationSet": [],
+        "CidrBlockAssociationSet": [
+            {
+                "AssociationId": "vpc-cidr-assoc-09d6b0405bb8a5a3c",
+                "CidrBlock": "10.0.0.0/16",
+                "CidrBlockState": {
+:
+
+Step 2: Check VPCs.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 describe-vpcs{
+    "Vpcs": [
+        {
+            "CidrBlock": "10.0.0.0/16",
+            "DhcpOptionsId": "dopt-65c0250e",
+            "State": "available",
+            "VpcId": "vpc-03d8df17a7c6ee314",
+            "OwnerId": "889926323400",
+            "InstanceTenancy": "default",
+            "CidrBlockAssociationSet": [
+                {
+                    "AssociationId": "vpc-cidr-assoc-09d6b0405bb8a5a3c",
+                    "CidrBlock": "10.0.0.0/16",
+                    "CidrBlockState": {
+                        "State": "associated"
+                    }
+                }
+            ],
+            "IsDefault": false
+        },
+        {
+            "CidrBlock": "192.168.0.0/16",
+            "DhcpOptionsId": "dopt-65c0250e",
+            "State": "available",
+            "VpcId": "vpc-0a2160a8ac76540f1",
+            "OwnerId": "889926323400",
+            "InstanceTenancy": "default",
+            "CidrBlockAssociationSet": [
+                {
+                    "AssociationId": "vpc-cidr-assoc-038812b8746dd5126",
+                    "CidrBlock": "192.168.0.0/16",
+                    "CidrBlockState": {
+                        "State": "associated"
+                    }
+                }
+            ],
+            "IsDefault": false,
+            "Tags": [
+                {
+                    "Key": "alpha.eksctl.io/cluster-name",
+                    "Value": "unique-party-1581060473"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "VPC"
+                },
+                {
+                    "Key": "eksctl.cluster.k8s.io/v1alpha1/cluster-name",
+                    "Value": "unique-party-1581060473"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "eksctl-unique-party-1581060473-cluster/VPC"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "eksctl-unique-party-1581060473-cluster"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:ap-south-1:889926323400:stack/eksctl-unique-party-1581060473-cluster/5c2eafb0-497b-11ea-ba88-0207d27cfd0c"
+                }
+            ]
+        },
+        {
+            "CidrBlock": "172.31.0.0/16",
+            "DhcpOptionsId": "dopt-65c0250e",
+            "State": "available",
+            "VpcId": "vpc-092205b468cb5b461",
+            "OwnerId": "889926323400",
+            "OwnerId": "889926323400",
+            "InstanceTenancy": "default",
+            "CidrBlockAssociationSet": [
+                {
+                    "AssociationId": "vpc-cidr-assoc-066387e1e235c6757",
+                    "CidrBlock": "172.31.0.0/16",
+                    "CidrBlockState": {
+                        "State": "associated"
+                    }
+                }
+            ],
+            "IsDefault": true
+        }
+    ]
+:
+
+Step 3: Create subnet
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 create-subnet --vpc-id vpc-03d8df17a7c6ee314 --cidr-block 10.0.1.0/24
+{
+    "Subnet": {
+        "AvailabilityZone": "ap-south-1a",
+        "AvailabilityZone": "ap-south-1a",
+        "AvailabilityZoneId": "aps1-az1",
+        "AvailableIpAddressCount": 251,
+        "CidrBlock": "10.0.1.0/24",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false,
+        "State": "available",
+        "SubnetId": "subnet-0f3b5722dc1bcc786",
+        "VpcId": "vpc-03d8df17a7c6ee314",
+        "OwnerId": "889926323400",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "SubnetArn": "arn:aws:ec2:ap-south-1:889926323400:subnet/subnet-0f3b5722dc1bcc786"
+    }
+}
+(END)
+
+
+Step 4 : Describe subnets.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 describe-subnets
+{
+    "Subnets": [
+        {
+            "AvailabilityZone": "ap-south-1a",
+            "AvailabilityZoneId": "aps1-az1",
+            "AvailableIpAddressCount": 4091,
+            "CidrBlock": "172.31.32.0/20",
+            "DefaultForAz": true,
+            "MapPublicIpOnLaunch": true,
+            "State": "available",
+            "SubnetId": "subnet-059b521f996d8a721",
+            "VpcId": "vpc-092205b468cb5b461",
+            "OwnerId": "889926323400",
+            "AssignIpv6AddressOnCreation": false,
+            "Ipv6CidrBlockAssociationSet": [],
+            "SubnetArn": "arn:aws:ec2:ap-south-1:889926323400:subnet/subnet-059b521f996d8a721"
+        },
+        {
+            "AvailabilityZone": "ap-south-1a",
+            "AvailabilityZoneId": "aps1-az1",
+            "AvailableIpAddressCount": 251,
+            "CidrBlock": "10.0.1.0/24",
+            "DefaultForAz": false,
+            "MapPublicIpOnLaunch": false,
+            "State": "available",
+            "SubnetId": "subnet-0f3b5722dc1bcc786",
+            "VpcId": "vpc-03d8df17a7c6ee314",
+            "OwnerId": "889926323400",
+            "AssignIpv6AddressOnCreation": false,
+            "Ipv6CidrBlockAssociationSet": [],
+            "SubnetArn": "arn:aws:ec2:ap-south-1:889926323400:subnet/subnet-0f3b5722dc1bcc786"
+        },
+        {
+            "AvailabilityZone": "ap-south-1b",
+            "AvailabilityZoneId": "aps1-az3",
+            "AvailableIpAddressCount": 4091,
+            "CidrBlock": "172.31.0.0/20",
+            "DefaultForAz": true,
+            "MapPublicIpOnLaunch": true,
+            "State": "available",
+            "SubnetId": "subnet-084c3025268f1e097",
+            "VpcId": "vpc-092205b468cb5b461",
+            "OwnerId": "889926323400",
+            "AssignIpv6AddressOnCreation": false,
+            "Ipv6CidrBlockAssociationSet": [],
+            "SubnetArn": "arn:aws:ec2:ap-south-1:889926323400:subnet/subnet-084c3025268f1e097"
+        },
+        {
+            "AvailabilityZone": "ap-south-1c",
+            "AvailabilityZoneId": "aps1-az2",
+{
+    "Subnets": [
+        {
+            "AvailabilityZone": "ap-south-1a",
+            "AvailabilityZoneId": "aps1-az1",
+            "AvailableIpAddressCount": 4091,
+            "CidrBlock": "172.31.32.0/20",
+            "DefaultForAz": true,
+            "MapPublicIpOnLaunch": true,
+            "State": "available",
+            "SubnetId": "subnet-059b521f996d8a721",
+            "VpcId": "vpc-092205b468cb5b461",
+            "OwnerId": "889926323400",
+            "AssignIpv6AddressOnCreation": false,
+:
+
+Step 5 : Create subnet in different AZ.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 create-subnet --vpc-id vpc-03d8df17a7c6ee314 --cidr-block 10.0.0.0/24 --availability-zone ap-south-1b
+{
+    "Subnet": {
+        "AvailabilityZone": "ap-south-1b",
+        "AvailabilityZoneId": "aps1-az3",
+        "AvailableIpAddressCount": 251,
+        "CidrBlock": "10.0.0.0/24",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false,
+        "State": "available",
+        "SubnetId": "subnet-0ab68589e37da1e04",
+        "VpcId": "vpc-03d8df17a7c6ee314",
+        "OwnerId": "889926323400",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "SubnetArn": "arn:aws:ec2:ap-south-1:889926323400:subnet/subnet-0ab68589e37da1e04"
+    }
+}
+(END)
+
+Step 6 : Create internet gateway.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 create-internet-gateway
+{
+    "InternetGateway": {
+        "Attachments": [],
+        "InternetGatewayId": "igw-026b91f3761064da2",
+        "OwnerId": "889926323400",
+        "Tags": []
+    }
+}
+
+Step 7: Attach gateway to VPC.
+aws ec2 attach-internet-gateway --vpc-id vpc-03d8df17a7c6ee314 --internet-gateway-id igw-026b91f3761064da2
+
+
+Step 8: Create a Route table for VPC.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 create-route-table --vpc-id vpc-03d8df17a7c6ee314
+{
+    "RouteTable": {
+        "Associations": [],
+        "PropagatingVgws": [],
+        "RouteTableId": "rtb-09eece5916031b6c8",
+        "Routes": [
+            {
+                "DestinationCidrBlock": "10.0.0.0/16",
+                "GatewayId": "local",
+                "Origin": "CreateRouteTable",
+                "State": "active"
+            }
+        ],
+        "Tags": [],
+        "VpcId": "vpc-03d8df17a7c6ee314",
+        "OwnerId": "889926323400"
+    }
+}
+(END)
+
+Step 9: Create Route Table entry in route table.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 create-route --route-table-id rtb-09eece5916031b6c8 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-026b91f3761064da2
+{
+    "Return": true
+}
+
+Step 10: Describe Route table to check if route has been created.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 describe-route-tables --route-table-id rtb-09eece5916031b6c8
+{
+    "RouteTables": [
+        {
+            "Associations": [],
+            "PropagatingVgws": [],
+            "RouteTableId": "rtb-09eece5916031b6c8",
+            "Routes": [
+                {
+                    "DestinationCidrBlock": "10.0.0.0/16",
+                    "GatewayId": "local",
+                    "Origin": "CreateRouteTable",
+                    "State": "active"
+{
+    "RouteTables": [
+        {
+            "Associations": [],
+            "PropagatingVgws": [],
+            "RouteTableId": "rtb-09eece5916031b6c8",
+            "Routes": [
+                {
+                    "DestinationCidrBlock": "10.0.0.0/16",
+                    "GatewayId": "local",
+                    "Origin": "CreateRouteTable",
+                    "State": "active"
+                },
+                {
+:
+Step 11: Associate Route table to subnet.
+
+Get Subnet IDs.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-03d8df17a7c6ee314" --query 'Subnets[*].{SUBNET:SubnetId,CIDR:CidrBlock}'
+[
+    {
+        "SUBNET": "subnet-0ab68589e37da1e04",
+        "CIDR": "10.0.0.0/24"
+    },
+    {
+        "SUBNET": "subnet-0f3b5722dc1bcc786",
+        "CIDR": "10.0.1.0/24"
+    }
+]
+
+Associate Route table to subnet.
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 associate-route-table --route-table-id rtb-09eece5916031b6c8 --subnet-id subnet-0ab68589e37da1e04
+{
+    "AssociationId": "rtbassoc-00bdfaaa0a73a415c",
+    "AssociationState": {
+        "State": "associated"
+    }
+}
+    
+
+
