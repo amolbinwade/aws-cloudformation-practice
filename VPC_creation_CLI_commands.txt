@@ -327,5 +327,25 @@ amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 associat
     }
 }
     
+Section C : Delete VPC
+=======================
+1. Dissociate route table association
 
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 disassociate-route-table --association-id rtbassoc-00bdfaaa0a73a415c
 
+2. Delete Route Table
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 delete-route-table --route-table-id rtb-09eece5916031b6c8
+
+3. Delete internet gateway
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 delete-internet-gateway --internet-gateway-id igw-026b91f3761064da2
+
+4. Delete subnets
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 delete-subnet --subnet-id subnet-0ab68589e37da1e04
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 delete-subnet --subnet-id subnet-0f3b5722dc1bcc786
+
+5. Delete VPC
+
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws ec2 delete-vpc --vpc-id vpc-03d8df17a7c6ee314
