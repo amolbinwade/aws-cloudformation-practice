@@ -1,0 +1,51 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+
+    "Description" : "AWS CloudFormation Template to instantiate an EC2 instance.",
+
+    "Parameters" : {
+        "InstanceType" : {
+            "Description" : "EC2 instance type",
+            "Type" : "String",
+            "Default" : "t2.micro",
+            "AllowedValues" : ["t2.micro", "t2.small"],
+            "ConstraintDescription" : "must be a valid instance type."
+        },
+
+        "KeyName" : {
+            "Description" : "SSH Key name to connect to instance using SSH",
+            "Type" : "AWS::EC2::KeyPair::KeyName",
+            "Default" : "amol-ec2-instance1-kyc-pair",
+            "ConstraintDescription" : "Must be name of existing EC2 keypair"
+        },
+
+        "NetworkStackTemplateURL" :{
+            "Description" : "URL for Network stack template file",
+            "Type" : "String",            
+            "AllowedPattern" : "https:\\/\\/?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)",
+            "Default" : "https://sharp-notes-s3-bucket.s3.ap-south-1.amazonaws.com/Cloudformation_network_template.json",
+            "ConstraintDescription" : "must be valid S3 URL"
+        }
+    },
+    
+    "Resources" : {
+        "myNetworkStack" : {
+            "Type" : "AWS::CloudFormation::Stack",
+            "Properties" : {
+                "TemplateURL" : {"Ref" : "NetworkStackTemplateURL"}
+            }    
+        },
+
+        "MyEC2Instance" : {
+            "Type" : "AWS::EC2::Instance",
+            "DependsOn" : "myNetworkStack",
+            "Properties" : {
+                "ImageId" : "ami-0ebc1ac48dfd14136",
+                "InstanceType" : {"Ref" : "InstanceType"},
+                "KeyName" : {"Ref" : "KeyName"},
+                "SubnetId" : {"Fn::GetAtt" : ["myNetworkStack","Outputs.mySubnet"]}
+
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+1. Command to list the S3 buckets in your account:
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws s3 ls
+2020-08-11 19:01:39 code-backup-amol
+2019-08-05 01:15:47 elasticbeanstalk-ap-south-1-889926323400
+2020-08-11 13:12:07 sharp-notes-s3-bucket
+
+2. Command to copy your local file to S3 bucket:
+amol@amol-Inspiron-5558:~/codeRepo/aws-cloudformation-practice$ aws s3 cp Cloudformation_network_template.json s3://sharp-notes-s3-bucket/Cloudformation_network_template.json
+upload: ./Cloudformation_network_template.json to s3://sharp-notes-s3-bucket/Cloudformation_network_template.json
