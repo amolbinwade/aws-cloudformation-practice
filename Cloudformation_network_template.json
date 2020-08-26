@@ -22,6 +22,7 @@
             "Properties" : {
                 "VpcId" : {"Ref": "myVPC"},
                 "CidrBlock" : "10.0.1.0/24",
+                "MapPublicIpOnLaunch" : true,
                 "Tags" : [ {"Key" : "my-application", "Value" : {"Ref" : "AWS::StackId"}}]
             }
         },
@@ -67,5 +68,15 @@
             }
         }
 
+    },
+    "Outputs": {
+        "mySubnet": {
+            "Description" : "This is the public subnet created from network CloudFormation template.",
+            "Value" : {"Ref" : "mySubnet"}
+        },
+        "myVPC" : {
+            "Description" : "This is the VPC created with CloudFormation template.",
+            "Value" : {"Ref" : "myVPC"}
+        }
     }
 }

@@ -36,6 +36,23 @@
             }    
         },
 
+        "MySecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Security Group for Cloudformation stack EC2 instances",
+                "GroupName" : "my-cloudformation-security-group",
+                "SecurityGroupIngress" : [
+                    {
+                        "CidrIp" : "0.0.0.0/0",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "IpProtocol" : "tcp"
+                    }
+                ],
+                "VpcId" : {"Fn::GetAtt" : ["myNetworkStack", "Outputs.myVPC"]}
+            }
+        },
+
         "MyEC2Instance" : {
             "Type" : "AWS::EC2::Instance",
             "DependsOn" : "myNetworkStack",
@@ -43,7 +60,12 @@
                 "ImageId" : "ami-0ebc1ac48dfd14136",
                 "InstanceType" : {"Ref" : "InstanceType"},
                 "KeyName" : {"Ref" : "KeyName"},
-                "SubnetId" : {"Fn::GetAtt" : ["myNetworkStack","Outputs.mySubnet"]}
+                "SubnetId" : {"Fn::GetAtt" : ["myNetworkStack","Outputs.mySubnet"]},
+                "SecurityGroupIds" : [
+                    {
+                        "Ref" : "MySecurityGroup"
+                    }
+                ]
 
             }
         }
